@@ -29,14 +29,14 @@ int compare_nodes(struct song_node* target, char * name, char *artist){
 }
 
 struct song_node * insert_node_ordered(struct song_node* start, char * name, char *artist){
-  struct song_node* previous;
+  struct song_node* previous = NULL;
   struct song_node* target = start;
 
   while (target && compare_nodes(target, name, artist)){
     previous = target;
     target = target -> next;
   }
-  if (previous){
+  if (previous != NULL){
     // printf("name: %s, artist: %s\n", name, artist);
 
     previous -> next = make_song(name, artist);
@@ -61,8 +61,11 @@ void print_list(struct song_node *p){
 }
 
 struct song_node * get_song(struct song_node* start, char * artis, char * nam){
+  // printf("get song: %s by %s\n", nam, artis);
   struct song_node * target = start;
-  while (target) {
+  while (target != NULL) {
+    // printsong(target);
+    // printf("%s: %d %s: %s: %d\n", target -> artist, strcmp(target -> artist, artis), target -> name, nam, strcmp(target -> name, nam));
     if (strcmp(target -> artist, artis) == 0 && strcmp(target -> name, nam) == 0){
       return target;
     }
@@ -72,7 +75,7 @@ struct song_node * get_song(struct song_node* start, char * artis, char * nam){
 }
 struct song_node * get_artist_first_song(struct song_node* start, char * artis){
   struct song_node * target = start;
-  while (target) {
+  while (target != NULL) {
     if (strcmp(target -> artist, artis) == 0){
       return target;
     }
@@ -90,8 +93,9 @@ struct song_node * get_random_song(struct song_node* start){
     length ++;
     target = target -> next;
   }
-  int num = rand() % (length + 1 - 0) + 0;
+  int num = rand() % (length);
   int i;
+
   target = start;
   for (i = 0; i < num; i++){
     target = target -> next;
@@ -129,17 +133,20 @@ struct song_node * make_song(char* nam, char *artis) {
 // WIP
 struct song_node * remove_node(struct song_node *start, char* nam, char* artis){
   struct song_node * target = start;
-  struct song_node * previous;
+  struct song_node * previous = NULL;
   while (target) {
     // printf("before stagfallinside\n");
-    // introducesong(target);
-    if (strcmp(target -> name, nam) == 0 && strcmp(target -> name, artis) == 0){
+    // printsong(target);
+    if (strcmp(target -> name, nam) == 0 && strcmp(target -> artist, artis) == 0){
       // printf("after stagfall\n");
-      if (previous){
+      if (previous != NULL){
+        // printf("after stagfall\n");
         previous -> next = target -> next;
         free(target);
       }else{
+        start = target -> next;
         free(target);
+
       }
       return start;
     }

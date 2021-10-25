@@ -21,5 +21,5 @@ struct song_node * make_song(char* nam, char *artis);
 void print_list(struct song_node *p);
 struct song_node * free_list(struct song_node *start);
 struct song_node * remove_node(struct song_node *start, char* name, char* artist);
-
+void shuffle(struct song_node ** library, int num_of_songs);
 #endif
